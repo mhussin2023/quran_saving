@@ -168,6 +168,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.1.1"
+  list_selection_widget:
+    dependency: "direct main"
+    description:
+      name: list_selection_widget
+      sha256: "791612d527dd7585b351cdc51804ecb837945accdfe11c41e7b4a56b17cd4e32"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
   matcher:
     dependency: transitive
     description:
