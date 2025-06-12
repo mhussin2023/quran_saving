@@ -26,6 +26,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
     var smallSpace = SizedBox(height: 30,);
    // DataStorage.getFilesNames();
     print('length is ${DataStorage.dataFilesNames.length}');
+var buttonTextStyle=TextStyle(
+  fontSize: 20,
+  color: Colors.black
+);
 
 
     return Scaffold(
@@ -44,7 +48,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
             textDirection: TextDirection.rtl,
             child: ChoiceChip(
       
-              label: Text('العرض فى عامود'),
+              label: Text(
+                  style: buttonTextStyle,
+                  'العرض فى عامود'),
               onSelected: (value) {
                 setState(() {
                   DataStorage.listType = value;
@@ -62,7 +68,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
             widget.refreshMainPage();
             goBack();
           },
-              child: Text("بدء ختمة جديدة"))
+              child: Text(
+                  style: buttonTextStyle,
+                  "بدء ختمة جديدة"))
           ,
           smallSpace,
           ElevatedButton(onPressed: () async {
@@ -70,11 +78,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
             //print(feedback);
             String fileName=await getFileName();
             DataStorage.saveToDevice(fileName);
-          }, child: Text(textAlign: TextAlign.center,
+          }, child: Text(
+              style: buttonTextStyle,
+              textAlign: TextAlign.center,
               "حفظ بيانات الختمة\n على الهاتف")),
       
           smallSpace,
           Container(
+            padding: EdgeInsets.all(5),
             color: Colors.cyan,
             height: 200,
             width: double.infinity,
@@ -82,11 +93,17 @@ class _DashBoardPageState extends State<DashBoardPage> {
               child: Column(
                 children:
                   {for  (int i=0;i<DataStorage.dataFilesNames.length;i++)
-                    Container(
-                      color:(i%2==0)? Colors.cyan:Colors.green,
-                      child: Text(
-
-                          DataStorage.dataFilesNames[i]),
+                    GestureDetector(
+                      onDoubleTap: (){
+                        print('double tapped$i');
+                      },
+                      child: Container(
+                        width: double.maxFinite,
+                        color:(i%2==0)? Colors.white:Colors.lightGreenAccent,
+                        child: Text(
+                          style: TextStyle(fontSize: 20),
+                            DataStorage.dataFilesNames[i]),
+                      ),
                     )
                   }
                       .toList()

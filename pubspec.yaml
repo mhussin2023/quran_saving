@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.5.3
   choice: ^2.3.2
   path_provider: ^2.0.1
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:

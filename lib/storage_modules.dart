@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:path/path.dart' as path;
 
 
 
@@ -17,13 +18,17 @@ class DataStorage {
   // Save list of bools
   static Future<void> getFilesNames() async {
     dataFilesNames.clear();
-    dataFilesNames.add('noName');
-    final directory = await getApplicationDocumentsDirectory();//.then((value) => value.path);
+   // dataFilesNames.add('noName');
+    final directory = await path_provider.getApplicationDocumentsDirectory();//.then((value) => value.path);
     List<FileSystemEntity> filesList=directory.listSync();
     FileSystemEntity? tempFile;
     for( tempFile in filesList){
-      dataFilesNames.add(tempFile.path);
+      if(tempFile.path.contains('data-'))
+      {
+      String fileName=path.basename(tempFile.path);
+      dataFilesNames.add(fileName);
       print(tempFile.path);
+      }
     }
     print("length=${dataFilesNames.length}");
   }
@@ -66,7 +71,7 @@ class DataStorage {
   static Future<void> saveToDevice(String? fileName) async {
     if(fileName==null){fileName='noName';}
     print('start saving data');
-    final directory = await getApplicationDocumentsDirectory().then((value) => value.path);
+    final directory = await path_provider.getApplicationDocumentsDirectory().then((value) => value.path);
     DateTime now=DateTime.now();
     print(now);
 
