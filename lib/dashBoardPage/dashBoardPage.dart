@@ -14,7 +14,7 @@ class DashBoardPage extends StatefulWidget {
 }
 
 class _DashBoardPageState extends State<DashBoardPage> {
-
+  int selectedFile=0;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,13 +30,29 @@ class _DashBoardPageState extends State<DashBoardPage> {
     var buttonTextStyle=TextStyle(
     fontSize: 20,
     color: Colors.black
+       
 );
-    final List<SelectionItem<String>> _listItems = [
-      SelectionItem(value: 'item1', label: 'Flutter'),
-      SelectionItem(value: 'item2', label: 'React Native'),
-      SelectionItem(value: 'item3', label: 'Swift'),
-      SelectionItem(value: 'item4', label: 'Kotlin'),
-    ];
+    
+    // final  _listItems = [
+    //   SelectionItem(value: 'item1', label: 'Flutter')
+    //  ,
+    //
+    //   SelectionItem(value:'item2', label: 'React Native'),
+    //   SelectionItem(value: 'item3', label: 'Swift'),
+    //   SelectionItem(value: 'item4', label: 'Kotlin'),
+    // ];
+    // SelectionItem<String> _selectedItem =
+    // SelectionItem(value: 'item1', label: 'Flutter');
+
+    // ListSelectionWidget<String> ggg=ListSelectionWidget<String>.single(
+    //   hideLines: true,
+    //   hintText: 'Select an item',
+    //   listItems: _listItems,
+    //   selectedValue: null,
+    //   onSingleItemSelected: (selected){
+    //
+    //   },
+    // );
 
 
     return Scaffold(
@@ -58,93 +74,105 @@ title: Center(
         // mainAxisSize: MainAxisSize.max,
       
         children:
-        // [
-        //   SizedBox(height: 100,),
-        //   Directionality(
-        //
-        //     textDirection: TextDirection.rtl,
-        //     child: ChoiceChip(
-        //
-        //       label: Text(
-        //           style: buttonTextStyle,
-        //           'العرض فى عامود'),
-        //       onSelected: (value) {
-        //         setState(() {
-        //           DataStorage.listType = value;
-        //         });
-        //
-        //         widget.refreshMainPage();
-        //         goBack();
-        //       },
-        //       selected: DataStorage.listType,
-        //     ),
-        //   ),
-        //   smallSpace,
-        //   ElevatedButton(onPressed: () {
-        //     DataStorage.clearStatusList();
-        //     widget.refreshMainPage();
-        //     goBack();
-        //   },
-        //       child: Text(
-        //           style: buttonTextStyle,
-        //           "بدء ختمة جديدة"))
-        //   ,
-        //   smallSpace,
-        //   ElevatedButton(onPressed: () async {
-        //     // String? feedback=dialogClass.showAlertDialog(context);
-        //     //print(feedback);
-        //     String fileName=await getFileName();
-        //     DataStorage.saveToDevice(fileName);
-        //   }, child: Text(
-        //       style: buttonTextStyle,
-        //       textAlign: TextAlign.center,
-        //       "حفظ بيانات الختمة\n على الهاتف")),
-        //
-        //   smallSpace,
-        //   Container(
-        //     padding: EdgeInsets.all(5),
-        //     color: Colors.cyan,
-        //     height: 200,
-        //     width: double.infinity,
-        //     child: SingleChildScrollView(
-        //       child: Column(
-        //         children:
-        //           {for  (int i=0;i<DataStorage.dataFilesNames.length;i++)
-        //             GestureDetector(
-        //               onDoubleTap: (){
-        //                 print('double tapped$i');
-        //               },
-        //               child: Container(
-        //                 width: double.maxFinite,
-        //                 color:(i%2==0)? Colors.white:Colors.lightGreenAccent,
-        //                 child: Text(
-        //                   style: TextStyle(fontSize: 20),
-        //                     DataStorage.dataFilesNames[i]),
-        //               ),
-        //             )
-        //           }
-        //               .toList()
-        //
-        //
-        //
-        //     )
-        //
-        //           ),
-        //     ),
-        //
-        //
-        //
-        // ],
+        [
+          SizedBox(height: 100,),
+          Directionality(
 
-        ListSelectionWidget<String>.single(
-          hideLines: true,
-          hintText: 'Select an item',
-          listItems: _listItems,
-          selectedValue: null,
-          onSingleItemSelected: (selected){
+            textDirection: TextDirection.rtl,
+            child: ChoiceChip(
 
+              label: Text(
+                  style: buttonTextStyle,
+                  'العرض فى عامود'),
+              onSelected: (value) {
+                setState(() {
+                  DataStorage.listType = value;
+                });
+
+                widget.refreshMainPage();
+                goBack();
+              },
+              selected: DataStorage.listType,
+            ),
+          ),
+          smallSpace,
+          ElevatedButton(onPressed: () {
+            DataStorage.clearStatusList();
+            widget.refreshMainPage();
+            goBack();
           },
-        ),
+              child: Text(
+                  style: buttonTextStyle,
+                  "بدء ختمة جديدة"))
+          ,
+          smallSpace,
+          ElevatedButton(onPressed: () async {
+            // String? feedback=dialogClass.showAlertDialog(context);
+            //print(feedback);
+            String fileName=await getFileName();
+            await DataStorage.saveToDevice(fileName);
+            setState(() {});
+          }, child: Text(
+              style: buttonTextStyle,
+              textAlign: TextAlign.center,
+              "حفظ بيانات الختمة\n على الهاتف")),
+
+          smallSpace,
+          Container(
+            padding: EdgeInsets.all(5),
+            color: Colors.cyan,
+            height: 200,
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                children:
+                  {for  (int i=0;i<DataStorage.dataFilesNames.length;i++)
+                    GestureDetector(
+                      onDoubleTap: (){
+                        setState(() {
+                          selectedFile=i;
+                        });
+                        print('double tapped$i');
+                      },
+                      child: Container(
+                        width: double.maxFinite,
+                        color:(i%2==0)? Colors.white:Colors.lightGreenAccent,
+                        child:Row(
+                          children: [
+                            Text(
+                              style: TextStyle(fontSize: 20),
+                                DataStorage.dataFilesNames[i]),
+                            (i==selectedFile)?
+                            Icon(Icons.swipe_right_alt):SizedBox(width: 1,height: 1)
+                          ],
+                        ),
+                      ),
+                    )
+                  }
+                      .toList()
+
+
+
+                          )
+
+                  ),
+            ),
+
+          smallSpace,
+          ElevatedButton(onPressed: () async {
+            // String? feedback=dialogClass.showAlertDialog(context);
+            //print(feedback);
+
+            setState(() {});
+          }, child: Text(
+              style: buttonTextStyle,
+              textAlign: TextAlign.center,
+              "تحميل بيانات الختمة")),
+
+
+        ],
+        //[ggg]
+
       ),
     );
   }
